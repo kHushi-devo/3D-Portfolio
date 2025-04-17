@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Khushi | Creative Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --bg-main: linear-gradient(to right, #141e30, #243b55);
+      --card-front: #fff;
+      --card-back: #1f1f1f;
+      --text-main: #fff;
+      --highlight: #00d9ff;
+      --hover-glow: #1ef0a6;
+    }
+
+    body.light {
+      --bg-main: linear-gradient(to right, #f3f3f3, #ffffff);
+      --card-front: #fff;
+      --card-back: #eee;
+      --text-main: #111;
+      --highlight: #007acc;
+      --hover-glow: #22dd88;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    body {
+      background: var(--bg-main);
+      color: var(--text-main);
+      height: 100vh;
+      overflow-x: hidden;
+      animation: fadeIn 1s ease-in;
+      transition: background 0.5s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 40px;
+    }
+
+    .portfolio-card {
+      width: 340px;
+      height: 500px;
+      transform-style: preserve-3d;
+      transition: transform 1.2s;
+      position: relative;
+      cursor: pointer;
+      perspective: 1200px;
+      border-radius: 20px;
+      will-change: transform;
+    }
+
+    .portfolio-card:hover {
+      box-shadow: 0 0 30px var(--hover-glow);
+    }
+
+    .portfolio-card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .face {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      border-radius: 20px;
+      backface-visibility: hidden;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    .front {
+      background: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085') no-repeat center/cover;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 30px;
+    }
+
+    .front h1 {
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    .front p {
+      font-size: 16px;
+      opacity: 0.8;
+      height: 22px;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid var(--text-main);
+      animation: typing 4s steps(40, end) infinite, blink 0.7s step-end infinite;
+    }
+
+    @keyframes typing {
+      0%, 20% { width: 0 }
+      60%, 100% { width: 100% }
+    }
+
+    @keyframes blink {
+      0%, 100% { border-color: transparent }
+      50% { border-color: var(--text-main) }
+    }
+
+    .back {
+      background: var(--card-back);
+      color: var(--text-main);
+      transform: rotateY(180deg);
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .back h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: var(--highlight);
+    }
+
+    .back p {
+      font-size: 14px;
+      line-height: 1.6;
+      opacity: 0.9;
+    }
+
+    .social-links a {
+      display: inline-block;
+      margin-right: 12px;
+      text-decoration: none;
+      color: var(--highlight);
+      font-size: 20px;
+      transition: transform 0.3s, color 0.3s;
+    }
+
+    .social-links a:hover {
+      color: var(--hover-glow);
+      transform: scale(1.2);
+    }
+
+    .resume-btn {
+      background-color: var(--highlight);
+      color: var(--card-back);
+      border: none;
+      padding: 10px 15px;
+      border-radius: 30px;
+      font-weight: bold;
+      text-align: center;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: background 0.3s;
+    }
+
+    .resume-btn:hover {
+      background-color: var(--hover-glow);
+    }
+
+    .toggle-btn {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      background: var(--highlight);
+      border: none;
+      color: var(--card-back);
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .projects-slider {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 0 20px;
+      max-width: 90%;
+    }
+
+    .project-card {
+      flex: 0 0 300px;
+      height: 180px;
+      background: var(--card-back);
+      color: var(--text-main);
+      border-radius: 20px;
+      padding: 20px;
+      scroll-snap-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    @media screen and (max-width: 600px) {
+      .portfolio-card {
+        width: 90%;
+        height: 480px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="toggle-btn" onclick="toggleTheme()">Toggle Theme</button>
+  <div class="container">
+    <div class="portfolio-card" id="card">
+      <div class="face front">
+        <h1>Khushi</h1>
+        <p>Frontend Developer • Creative Coder</p>
+      </div>
+      <div class="face back">
+        <div>
+          <h2>About Me</h2>
+          <p>I love crafting sleek, user-focused designs with HTML, CSS, and JavaScript. I specialize in animations, 3D interfaces, and interactive web experiences.</p>
+        </div>
+        <div>
+          <div class="social-links">
+            <a href="https://github.com/kHushi-devo" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fas fa-globe"></i></a>
+          </div>
+          <a href="#" class="resume-btn" download>Download Resume</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="projects-slider">
+      <div class="project-card">
+        <h3>Project One</h3>
+        <p>Interactive website using GSAP & 3D animation.</p>
+      </div>
+      <div class="project-card">
+        <h3>Project Two</h3>
+        <p>Creative portfolio layout with responsive design.</p>
+      </div>
+      <div class="project-card">
+        <h3>Project Three</h3>
+        <p>JavaScript mini-game with cool UI effects.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const card = document.getElementById('card');
+
+    // Flip effect on click (mobile-friendly)
+    card.addEventListener('click', () => {
+      card.classList.toggle('flipped');
+    });
+
+    // Mouse 3D tilt
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -10;
+      const rotateY = ((x - centerX) / centerX) * 10;
+      card.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+
+    // Dark/Light Toggle
+    function toggleTheme() {
+      document.body.classList.toggle('light');
+    }
+  </script>
+</body>
+</html>
